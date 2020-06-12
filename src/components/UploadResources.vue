@@ -9,7 +9,7 @@
 
                 <b-form-file
                  id="file-default"
-                  accept='json'
+                  accept='.json'
                   >
                  </b-form-file>
 
