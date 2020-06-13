@@ -123,15 +123,7 @@ export default {
     }
   },
 
-    mounted(){
-    console.log("I am working");
-  },
-
   methods: {
-    justSay:function(){
-      console.log("say it")
-
-    },
     //getting all players api call 
     getAllPlayers: function () {
       console.log("I am called")

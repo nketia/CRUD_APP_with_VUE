@@ -9,12 +9,17 @@
 
                 <b-form-file
                  id="file-default"
-                  accept='.json'
+                 ref="file"
+                 :value="value"
+                  accept='.json, .txt'
+                  v-on:change='handleFileUpload'
                   >
                  </b-form-file>
 
                  <b-button block
-                  variant="primary">
+                  variant="primary"
+                  v-on:click='fileUpload'
+                  >
                   Upload File
                 </b-button>
 
@@ -25,8 +30,55 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Home',
+
+    data() {
+    return {
+      selectedFile:'',
+      file:[],
+      filename:'',
+      errors:[]
+    }
+  },
+
+  methods:{
+    fileUpload: function() {
+      let formData = new FormData();
+      formData.append('userfile', this.file);
+            axios.post(`http://localhost:80/kinduct/index.php/endpoints/resourceUpload`,
+             formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }
+            )
+        .then(response => {
+           if(response.data)
+          {
+            this.$alert("File successfully uploaded")
+          }
+          else {
+            this.$alert("File could not be uploaded, try again")
+          }
+        
+        })
+        .catch(e  => {
+          this.errors.push(e)
+          console.log(this.errors)
+          });
+    },
+
+    handleFileUpload(event){
+      // console.log( this.file)
+      this.file=(event.target.files[0]);
+        // this.file = this.$refs['file'].files[0];
+        console.log(this.file);
+      }
+  }
+
 }
 </script>
 <style>
