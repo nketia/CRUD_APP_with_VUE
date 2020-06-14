@@ -141,10 +141,7 @@ export default {
         {
           this.$alert("Please enter an ID")
         }
-        console.log(this.returnedPlayers);
         this.returnedPlayers='';
-        console.log(this.searchPlayerID);
-      console.log("I am called")
       axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/getAResource/`+this.searchPlayerID)
         .then(response => {
           console.log(JSON.stringify(response.data))
@@ -162,12 +159,12 @@ export default {
         this.returnedPlayers='';
         axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/deleteAResource/`+this.deletePlayerID)
         .then(response => {
-          if(!response.data)
+          if(response.data==1)
           {
             this.$alert("Player deleted")
           }
           else {
-            this.$alert("Something happened, player not deleted")
+            this.$alert(response.data)
           }
         })
         .catch(e  => this.errors.push(e));

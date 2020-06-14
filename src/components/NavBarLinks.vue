@@ -2,7 +2,7 @@
     <b-navbar  class="navbarMain">
         <b-navbar-nav >
             <b-nav-item><router-link to='/'> Upload Players</router-link></b-nav-item> 
-            <b-nav-item  ><router-link to='/view_delete'>View Resources</router-link></b-nav-item> 
+            <b-nav-item  ><router-link to='/view_delete'>View/Delete Resources</router-link></b-nav-item> 
         </b-navbar-nav>
   </b-navbar>
 
