@@ -127,7 +127,7 @@ export default {
     //getting all players api call 
     getAllPlayers: function () {
       console.log("I am called")
-      axios.get(`http://localhost:80/kinduct/index.php/endpoints/getAllResources`)
+      axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/getAllResources`)
         .then(response => {
           console.log(JSON.stringify(response.data))
         this.returnedPlayers=response.data
@@ -145,7 +145,7 @@ export default {
         this.returnedPlayers='';
         console.log(this.searchPlayerID);
       console.log("I am called")
-      axios.get(`http://localhost:80/kinduct/index.php/endpoints/getAResource/`+this.searchPlayerID)
+      axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/getAResource/`+this.searchPlayerID)
         .then(response => {
           console.log(JSON.stringify(response.data))
         this.returnedPlayers=response.data
@@ -160,9 +160,7 @@ export default {
           this.$alert("Please enter an ID")
         }
         this.returnedPlayers='';
-        console.log(this.searchPlayerID);
-      console.log("I am called")
-      axios.get(`http://localhost:80/kinduct/index.php/endpoints/deleteAResource/`+this.deletePlayerID)
+        axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/deleteAResource/`+this.deletePlayerID)
         .then(response => {
           if(!response.data)
           {

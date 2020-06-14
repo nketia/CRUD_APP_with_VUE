@@ -24,7 +24,6 @@ const router = new pageRouting({
 });
 
 new Vue({
-  // el:'#app',
   router,
   render: h => h(App),
 }).$mount('#app')
