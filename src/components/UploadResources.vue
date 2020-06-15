@@ -10,7 +10,8 @@
                 <b-form-file
                  id="file-default"
                  ref="file"
-                 value="value"
+                 :value="value"
+                 v-model='fileValue'
                   accept='.json'
                   v-on:change='handleFileUpload'
                   >
@@ -37,12 +38,16 @@ export default {
     data() {
     return {
       file:[],
-      errors:[]
+      errors:[],
+      fileValue:'',
+      value:''
     }
   },
 
   methods:{
     fileUpload: function() {
+      if (this.value.length)
+      {
       let formData = new FormData();
       formData.append('userfile', this.file);
             axios.post(`http://localhost:80/kinduct-backend/index.php/endpoints/resourceUpload`,
@@ -59,18 +64,20 @@ export default {
             this.$alert("File successfully uploaded and resource inserted into database")
             this.$refs['file'].reset()
           }
-          else {
-            this.$alert("File could not be uploaded, try again")
-          }
         
         })
         .catch(e  => {
           this.errors.push(e)
           });
+      }
+      else {
+           this.$alert("Please select a file for upload");
+      }
     },
 
     handleFileUpload(event){
       this.file=(event.target.files[0]);
+      this.value=event.target.value;
       }
   }
 

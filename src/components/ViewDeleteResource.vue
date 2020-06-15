@@ -120,54 +120,56 @@ export default {
       errors: [],
       searchPlayerID:'',
       deletePlayerID:'',
+      baseUrl:`http://localhost:80/kinduct-backend/index.php/endpoints/`
     }
   },
 
   methods: {
     //getting all players api call 
     getAllPlayers: function () {
-      console.log("I am called")
-      axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/getAllResources`)
+      axios.get(this.baseUrl+'getAllResources')
         .then(response => {
-          console.log(JSON.stringify(response.data))
-        this.returnedPlayers=response.data
-        
+          this.returnedPlayers=response.data;
         })
         .catch(e  => this.errors.push(e));
     },
       //getting a specific player api call
       getSpecificPlayer: function () {
-        if (!this.searchPlayerID.length)
+        if (this.searchPlayerID.length) // Only make the api call if ID is supplied
         {
-          this.$alert("Please enter an ID")
+          this.returnedPlayers='';
+          axios.get(this.baseUrl+ 'getAResource/'+this.searchPlayerID)
+          .then(response => {
+            this.returnedPlayers=response.data
+          })
+          .catch(e  => this.errors.push(e));
         }
-        this.returnedPlayers='';
-      axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/getAResource/`+this.searchPlayerID)
-        .then(response => {
-          console.log(JSON.stringify(response.data))
-        this.returnedPlayers=response.data
-        
-        })
-        .catch(e  => this.errors.push(e));
+
+        else {
+          this.$alert("Please enter an ID of a player to search")
+        }
     },
+
       //delete a resource call
       deletePlayer: function () {
-        if (!this.deletePlayerID.length)
+        if (this.deletePlayerID.length) //Only make the api call if ID is supplied
         {
-          this.$alert("Please enter an ID")
+          this.returnedPlayers='';
+          axios.get(this.baseUrl+ 'deleteAResource/'+this.deletePlayerID)
+          .then(response => {
+            if(response.data==1)
+            {
+              this.$alert("Player deleted")
+            }
+            else {
+              this.$alert(response.data)
+            }
+          })
+          .catch(e  => this.errors.push(e));
         }
-        this.returnedPlayers='';
-        axios.get(`http://localhost:80/kinduct-backend/index.php/endpoints/deleteAResource/`+this.deletePlayerID)
-        .then(response => {
-          if(response.data==1)
-          {
-            this.$alert("Player deleted")
-          }
-          else {
-            this.$alert(response.data)
-          }
-        })
-        .catch(e  => this.errors.push(e));
+        else {
+          this.$alert("Please enter an ID of a player to delete")
+        }
     }
   }
 }
