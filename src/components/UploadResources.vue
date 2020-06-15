@@ -40,17 +40,34 @@ export default {
       file:[],
       errors:[],
       fileValue:'',
-      value:''
+      value:'',
+      baseUrl:`http://localhost:80/kinduct-backend/index.php/endpoints/`
     }
   },
 
+  mounted() {
+    this.callTableCreate();
+  },
+
   methods:{
+    callTableCreate: function(){
+       axios.get(this.baseUrl+ 'makeDbTable')
+          .then(response => {
+            if(response.data==1){
+              console.log("Table created successfully");
+            }
+          })
+          .catch(e  => this.errors.push(e));
+
+    },
+
+
     fileUpload: function() {
       if (this.value.length)
       {
       let formData = new FormData();
       formData.append('userfile', this.file);
-            axios.post(`http://localhost:80/kinduct-backend/index.php/endpoints/resourceUpload`,
+            axios.post(this.baseUrl+'resourceUpload',
              formData,
                 {
                 headers: {
